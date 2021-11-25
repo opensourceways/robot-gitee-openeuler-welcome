@@ -10,6 +10,7 @@ import (
 	libplugin "github.com/opensourceways/community-robot-lib/giteeplugin"
 	"github.com/opensourceways/community-robot-lib/utils"
 	"github.com/sirupsen/logrus"
+	"gopkg.in/yaml.v2"
 )
 
 const (
