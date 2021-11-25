@@ -61,8 +61,12 @@ type botConfig struct {
 
 	// CommandLink is the link to command help document page.
 	CommandLink string `json:"command_link" required:"true"`
+<<<<<<< HEAD
 
 	// SigFilePath is file path and the file includes information about
+=======
+	// SigFilePath file path of the operation information maintenance of all
+>>>>>>> dd636df... support add sig label automatic
 	// Special Interest Groups (SIG) in the community.
 	// The format is org/repo/branch:path
 	SigFilePath string     `json:"sig_file_path" required:"true"`
