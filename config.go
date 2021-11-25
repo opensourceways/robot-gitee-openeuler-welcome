@@ -60,7 +60,7 @@ type botConfig struct {
 	CommunityRepository string `json:"community_repository" required:"true"`
 	// CommandLink the command help document link displayed in the welcome message
 	CommandLink string `json:"command_link" required:"true"`
-	// SigFile file path of the operation information maintenance of all
+	// SigFilePath file path of the operation information maintenance of all
 	// Special Interest Groups (SIG) in the community.
 	SigFilePath string `json:"sig_file_path" required:"true"`
 }
