@@ -54,15 +54,18 @@ func (c *configuration) SetDefault() {
 
 type botConfig struct {
 	libconfig.PluginForRepo
-	// CommunityName displayed in welcome message
+
+	// CommunityName is the name of community
 	CommunityName string `json:"community_name" required:"true"`
-	// CommunityRepository name of the community's information management repository
-	CommunityRepository string `json:"community_repository" required:"true"`
-	// CommandLink the command help document link displayed in the welcome message
+
+	// CommandLink is the link to command help document page.
 	CommandLink string `json:"command_link" required:"true"`
-	// SigFilePath file path of the operation information maintenance of all
+
+	// SigFilePath is file path and the file includes information about
 	// Special Interest Groups (SIG) in the community.
-	SigFilePath string `json:"sig_file_path" required:"true"`
+	// The format is org/repo/branch:path
+	SigFilePath string     `json:"sig_file_path" required:"true"`
+	sigFile     fileOfRepo `json:"-"`
 }
 
 func (c *botConfig) setDefault() {
@@ -76,4 +79,15 @@ func (c *botConfig) validate() error {
 		return fmt.Errorf("the command_link configuration can not be empty")
 	}
 	return c.PluginForRepo.Validate()
+}
+
+func parseSigFilePath(p string) (fileOfRepo, error) {
+	return fileOfRepo{}, nil
+}
+
+type fileOfRepo struct {
+	org    string
+	repo   string
+	branch string
+	path   string
 }

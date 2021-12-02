@@ -78,8 +78,8 @@ go_repository(
 go_repository(
     name = "com_gitee_openeuler_go_gitee",
     importpath = "gitee.com/openeuler/go-gitee",
-    sum = "h1:blporV8Omvwi79lGzGyfIdsZcJru8KlVHHE51UbBwnI=",
-    version = "v0.0.0-20211118064030-1aa4f942207c",
+    sum = "h1:MlbJ2lm8uvMY/WLPXszj2VPlrppx5Nt1gh4+ELtqJIU=",
+    version = "v0.0.0-20211202071536-442b0d098c5f",
 )
 
 go_repository(
@@ -526,8 +526,8 @@ go_repository(
 go_repository(
     name = "com_github_opensourceways_community_robot_lib",
     importpath = "github.com/opensourceways/community-robot-lib",
-    sum = "h1:vgruDGHH3ujculGs0tOBM5/P28MoMe2viEMG2XPvdgk=",
-    version = "v0.0.0-20211123022627-feebb9ce4a77",
+    sum = "h1:pA+E6UL0cwK01d73WYq8cSgkVxUo2LCPVpzzBP8KdNw=",
+    version = "v0.0.0-20211127100111-9925e60f0b14",
 )
 
 go_repository(
