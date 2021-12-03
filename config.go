@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 
 	libconfig "github.com/opensourceways/community-robot-lib/config"
 )
@@ -75,14 +76,39 @@ func (c *botConfig) validate() error {
 	if c.CommunityName == "" {
 		return fmt.Errorf("the community_name configuration can not be empty")
 	}
+
 	if c.CommandLink == "" {
 		return fmt.Errorf("the command_link configuration can not be empty")
 	}
+
+	if err := c.parseSigFilePath(); err != nil {
+		return err
+	}
+
 	return c.PluginForRepo.Validate()
 }
 
-func parseSigFilePath(p string) (fileOfRepo, error) {
-	return fileOfRepo{}, nil
+func (c *botConfig) parseSigFilePath() error {
+	p := c.SigFilePath
+
+	v := strings.Split(p, ":")
+	if len(v) != 2 {
+		return fmt.Errorf("invalid sig_file_path:%s", p)
+	}
+
+	v1 := strings.Split(v[1], "/")
+	if len(v1) != 3 {
+		return fmt.Errorf("invalid sig_file_path:%s", p)
+	}
+
+	c.sigFile = fileOfRepo{
+		org:    v1[0],
+		repo:   v1[1],
+		branch: v1[2],
+		path:   v[1],
+	}
+
+	return nil
 }
 
 type fileOfRepo struct {

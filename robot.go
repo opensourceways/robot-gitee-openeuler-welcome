@@ -29,6 +29,7 @@ type iClient interface {
 	GetRepoLabels(owner, repo string) ([]sdk.Label, error)
 	AddPRLabel(org, repo string, number int32, label string) error
 	AddIssueLabel(org, repo, number, label string) error
+	ListCollaborators(org, repo string) ([]sdk.ProjectMember, error)
 }
 
 func newRobot(cli iClient) *robot {
@@ -168,7 +169,19 @@ func (bot robot) genComment(org, repo, author string, cfg *botConfig) (string, s
 }
 
 func (bot *robot) getMaintainers(org, repo string) ([]string, error) {
-	return nil, nil
+	v, err := bot.cli.ListCollaborators(org, repo)
+	if err != nil {
+		return nil, err
+	}
+
+	r := make([]string, 0, len(v))
+	for i := range v {
+		p := v[i].Permissions
+		if p != nil && (p.Admin || p.Push) {
+			r = append(r, v[i].Login)
+		}
+	}
+	return r, nil
 }
 
 func (bot *robot) createLabelIfNeed(org, repo, label string) error {
