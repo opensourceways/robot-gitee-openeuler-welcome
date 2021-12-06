@@ -70,11 +70,14 @@ type botConfig struct {
 
 	// CheckObsMetalOriginFile check whether obs meta related files are modified when PR is created
 	CheckObsMetalOriginFile bool `json:"check_obs_meta_origin_file,omitempty"`
-	//ObsMetaOriginFile file name related to obs meta
+
+	// ObsMetaOriginFile file name related to obs meta
 	ObsMetaOriginFile string `json:"obs_meta_origin_file,omitempty"`
-	//GuideURL the guid url
+
+	// GuideURL the guid url
 	GuideURL string `json:"guide_url,omitempty"`
-	//ObsMetaConfig the repository configuration for storing obs meta information
+
+	// ObsMetaConfig the repository configuration for storing obs meta information
 	ObsMetaConfig obsMetaConfig `json:"obs_meta_config,omitempty"`
 }
 

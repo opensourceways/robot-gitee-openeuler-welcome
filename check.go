@@ -45,6 +45,7 @@ func (bot *robot) getObsMetaFileChanged(org, repo string, number int32, path str
 			return &file, nil
 		}
 	}
+
 	return nil, nil
 }
 
@@ -74,7 +75,7 @@ func (bot *robot) obsMetaRepoExistAllProjectNames(pNames []string, cfg *botConfi
 }
 
 func getProjectNamesFromChangeFile(file *gitee.PullRequestFiles) (proNames []string) {
-	str := strings.ReplaceAll(file.Patch.Diff," ","")
+	str := strings.ReplaceAll(file.Patch.Diff, " ", "")
 	diff := strings.Split(str, "\n")
 	changePrefix := "+-name:"
 	var validDiffs []string
