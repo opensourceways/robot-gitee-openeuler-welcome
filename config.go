@@ -67,6 +67,15 @@ type botConfig struct {
 	// The format is org/repo/branch:path
 	SigFilePath string     `json:"sig_file_path" required:"true"`
 	sigFile     fileOfRepo `json:"-"`
+
+	// CheckObsMetalOriginFile check whether obs meta related files are modified when PR is created
+	CheckObsMetalOriginFile bool `json:"check_obs_meta_origin_file,omitempty"`
+	//ObsMetaOriginFile file name related to obs meta
+	ObsMetaOriginFile string `json:"obs_meta_origin_file,omitempty"`
+	//GuideURL the guid url
+	GuideURL string `json:"guide_url,omitempty"`
+	//ObsMetaConfig the repository configuration for storing obs meta information
+	ObsMetaConfig obsMetaConfig `json:"obs_meta_config,omitempty"`
 }
 
 func (c *botConfig) setDefault() {
@@ -79,6 +88,20 @@ func (c *botConfig) validate() error {
 
 	if c.CommandLink == "" {
 		return fmt.Errorf("the command_link configuration can not be empty")
+	}
+
+	if c.CheckObsMetalOriginFile {
+		if c.ObsMetaOriginFile == "" {
+			return fmt.Errorf("the obs_meta_origin_file configuration can not be empty when check_obs_meta_file is true")
+		}
+
+		if c.GuideURL == "" {
+			return fmt.Errorf("the guid_url configuration can not be empty when check_obs_meta_file is true")
+		}
+
+		if err := c.ObsMetaConfig.validate(); err != nil {
+			return err
+		}
 	}
 
 	if err := c.parseSigFilePath(); err != nil {
@@ -116,4 +139,26 @@ type fileOfRepo struct {
 	repo   string
 	branch string
 	path   string
+}
+
+type obsMetaConfig struct {
+	Owner  string `json:"owner" required:"true"`
+	Repo   string `json:"repo" required:"true"`
+	Branch string `json:"branch" required:"true"`
+}
+
+func (omi obsMetaConfig) validate() error {
+	if omi.Owner == "" {
+		return fmt.Errorf("the owner configuration can not be empty")
+	}
+
+	if omi.Repo == "" {
+		return fmt.Errorf("the repo configuration can not be empty")
+	}
+
+	if omi.Branch == "" {
+		return fmt.Errorf("the branch configuration can not be empty")
+	}
+
+	return nil
 }

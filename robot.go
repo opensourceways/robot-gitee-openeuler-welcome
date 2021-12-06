@@ -30,6 +30,9 @@ type iClient interface {
 	AddPRLabel(org, repo string, number int32, label string) error
 	AddIssueLabel(org, repo, number, label string) error
 	ListCollaborators(org, repo string) ([]sdk.ProjectMember, error)
+	GetPullRequestChanges(org, repo string, number int32) ([]sdk.PullRequestFiles, error)
+	GetRef(org, repo, ref string) (string, error)
+	GetDirectoryTree(org, repo, sha string, recursive int32) (sdk.Tree, error)
 }
 
 func newRobot(cli iClient) *robot {
@@ -76,8 +79,9 @@ func (bot *robot) handlePREvent(e *sdk.PullRequestEvent, pc libconfig.PluginConf
 	if err != nil {
 		return err
 	}
+	mErr := utils.NewMultiErrors()
 
-	return bot.handle(
+	mErr.AddError(bot.handle(
 		org, repo, pr.GetUser().GetLogin(), cfg, log,
 
 		func(c string) error {
@@ -87,7 +91,10 @@ func (bot *robot) handlePREvent(e *sdk.PullRequestEvent, pc libconfig.PluginConf
 		func(label string) error {
 			return bot.cli.AddPRLabel(org, repo, number, label)
 		},
-	)
+	))
+	mErr.AddError(bot.handleCheckObsMetaFile(org, repo, number, cfg))
+
+	return mErr.Err()
 }
 
 func (bot *robot) handleIssueEvent(e *sdk.IssueEvent, pc libconfig.PluginConfig, log *logrus.Entry) error {
