@@ -163,7 +163,7 @@ func (bot robot) genComment(org, repo, author string, cfg *botConfig) (string, s
 
 	return sigName, fmt.Sprintf(
 		welcomeMessage, author, cfg.CommunityName, cfg.CommandLink,
-		sigName, sigName, strings.Join(maintainers, " @"),
+		sigName, sigName, strings.Join(maintainers, " , @"),
 	), nil
 }
 
