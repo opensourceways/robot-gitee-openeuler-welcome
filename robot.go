@@ -21,7 +21,7 @@ If you have any questions, please contact the SIG: [%s](https://gitee.com/openeu
 	welcomeMessage2 = `
 Hi ***%s***, welcome to the %s Community.
 I'm the Bot here serving you. You can find the instructions on how to interact with me at **[Here](%s)**.
-If you have any questions, please contact the SIG: [%s](https://gitee.com/openeuler/community/tree/master/sig/%s), and any of the maintainers: @%s, any of the committers: @%s`
+If you have any questions, please contact the SIG: [%s](https://gitee.com/openeuler/community/tree/master/sig/%s), and any of the maintainers: @%s or the committers: @%s`
 )
 
 type iClient interface {
